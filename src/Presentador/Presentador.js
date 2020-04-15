@@ -1,49 +1,30 @@
 import React from "react"
+import Bienvenida from "./ComponentesUI/Bienvenida"
+import IdentidadDelUsuario from "./ComponentesUI/IdentidadDelUsuario"
 
 class Presentador {
-  constructor(driver, servicioDeIdentidad) {
+  constructor(driver) {
     this.driver = driver
-    this.servicioDeIdentidad = servicioDeIdentidad
   }
   ingresarAUsuarioAutenticado(nombre) {
-    this.driver.render(
+    const tree = (
       <Bienvenida
         nombre={nombre}
       />
     )
+    this.driver.render(tree)
   }
-  solicitarIdentidad() {
+  solicitarIdentidad(servicioDeIdentidad) {
     const cuandoIngresaNombre = nombre => {
-      this.servicioDeIdentidad.crearSesion(nombre, this)
+      servicioDeIdentidad.crearSesion(nombre, this)
     }
-    this.driver.render(
+    const tree = (
       <IdentidadDelUsuario
         cuandoIngresaNombre={cuandoIngresaNombre}
       />
     )
+    this.driver.render(tree)
   }
-}
-
-function Bienvenida({nombre}) {
-  return (
-    <div>Bienvenido {nombre}.</div>
-  )
-}
-
-function IdentidadDelUsuario({ cuandoIngresaNombre }) {
-  const label = "Como es tu nombre ?"
-  const [nombre, setNombre] = React.useState("")
-  function onChange(e) {
-    const value = e.target.value
-    setNombre(value)
-  }
-  return (
-    <div>
-      <label htmlFor="nombre">{label}</label>
-      <input id="nombre" type="text" value={nombre} onChange={onChange} />
-      <button onClick={() => cuandoIngresaNombre(nombre)}>Ingresar</button>
-    </div>
-  )
 }
 
 export default Presentador;

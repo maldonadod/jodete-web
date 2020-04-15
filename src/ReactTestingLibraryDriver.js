@@ -2,19 +2,21 @@ import { render, fireEvent } from "@testing-library/react"
 
 class ReactTestingLibraryDriver {
   render(tree) {
-    const utils = render(tree)
-    Object.assign(this, utils)
+    Object.assign(this, render(tree))
   }
-  ingresarTexto(label, valor) {
-    const event = {
-      target: {
-        value: valor
-      }
-    }
-    fireEvent.change(this.getByLabelText(label), event)
+  ingresarTextoAlInputConLabel(label, valor) {
+    fireEvent.change(this.getByLabelText(label), createChangeEvent(valor))
   }
-  accionarBoton(label) {
+  accionarBotonConLabel(label) {
     fireEvent.click(this.getByText(label))
+  }
+}
+
+function createChangeEvent(valor) {
+  return {
+    target: {
+      value: valor
+    }
   }
 }
 

@@ -1,6 +1,6 @@
 class ServicioDeIdentidad {
   autorizar(presenter) {
-    presenter.solicitarIdentidad()
+    presenter.solicitarIdentidad(this)
   }
   crearSesion(nombre, presenter) {
     presenter.ingresarAUsuarioAutenticado(nombre)

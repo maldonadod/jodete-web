@@ -9,9 +9,9 @@ class Aplication {
   haPreguntadoAlUsuarioPorSuIdentidad() {
     this.driver.getByLabelText("Como es tu nombre ?")
   }
-  ingresarNombreParaIdentificarAlUsuario(nombre) {
-    this.driver.ingresarTexto("Como es tu nombre ?", nombre)
-    this.driver.accionarBoton("Ingresar")
+  ingresaNombreParaAutenticarse(nombre) {
+    this.driver.ingresarTextoAlInputConLabel("Como es tu nombre ?", nombre)
+    this.driver.accionarBotonConLabel("Ingresar")
   }
   haMostradoMensajeDeBienvenidaPara(nombre) {
     this.driver.getByText(`Bienvenido ${nombre}.`)
