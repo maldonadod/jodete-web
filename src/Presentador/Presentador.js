@@ -1,18 +1,34 @@
 import React from "react"
 import Bienvenida from "./ComponentesUI/Bienvenida"
 import IdentidadDelUsuario from "./ComponentesUI/IdentidadDelUsuario"
+import UsuariosConectadosCargando from "./ComponentesUI/UsuariosConectadosCargando"
+import UsuariosConectados from "./ComponentesUI/UsuariosConectados"
 
 class Presentador {
-  constructor(driver) {
+  constructor(driver, servicioJugadoresConectados) {
     this.driver = driver
+    this.servicioJugadoresConectados = servicioJugadoresConectados
   }
-  ingresarAUsuarioAutenticado(nombre) {
+  actualizarUsuariosConectados(jugadores) {
     const tree = (
-      <Bienvenida
-        nombre={nombre}
-      />
+      <div>
+        <Bienvenida nombre={this.usuario} />
+        <UsuariosConectados jugadores={jugadores} />
+      </div>
     )
     this.driver.render(tree)
+  }
+  ingresarAUsuarioAutenticado(nombre) {
+    this.usuario = nombre
+    const tree = (
+      <div>
+        <Bienvenida nombre={this.usuario} />
+        <UsuariosConectadosCargando />
+      </div>
+    )
+    this.driver.render(tree)
+
+    this.servicioJugadoresConectados.agregarObservador(this)
   }
   solicitarIdentidad(servicioDeIdentidad) {
     const cuandoIngresaNombre = nombre => {

@@ -2,7 +2,13 @@ import { render, fireEvent } from "@testing-library/react"
 
 class ReactTestingLibraryDriver {
   render(tree) {
-    Object.assign(this, render(tree))
+    if (this.rerender) {
+
+      this.rerender(tree)
+    } else {
+
+      Object.assign(this, render(tree))
+    }
   }
   ingresarTextoAlInputConLabel(label, valor) {
     fireEvent.change(this.getByLabelText(label), createChangeEvent(valor))
