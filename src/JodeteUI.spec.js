@@ -6,7 +6,8 @@ describe("cuando el usuario llega a la pagina principal y no tiene autorizacion"
   afterEach(cleanup)
   it("se le debe preguntar su identidad (nombre)", () => {
     const servicioJugadoresConectados = {
-      agregarObservador: jest.fn()
+      observarAnunciados: jest.fn(),
+      anunciarJugador: jest.fn()
     }
     const app = new Aplicacion(new ServicioDeIdentidad(), servicioJugadoresConectados)
     app.haPreguntadoAlUsuarioPorSuIdentidad()
@@ -15,20 +16,21 @@ describe("cuando el usuario llega a la pagina principal y no tiene autorizacion"
 
 describe("cuando el usuario provee su nombre para identificarlo", () => {
   afterEach(cleanup)
-  it("se le permite ingresar a la sala y muestra mensaje de bienvenida", () => {
+  it("se le permite ingresar a la sala y muestra mensaje de bienvenida", async () => {
     const servicioJugadoresConectados = {
-      agregarObservador: jest.fn()
+      observarAnunciados: jest.fn(),
+      anunciarJugador: jest.fn()
     }
     const NOMBRE = "jorge"
     const app = new Aplicacion(new ServicioDeIdentidad(), servicioJugadoresConectados)
     app.ingresaNombreParaAutenticarse(NOMBRE)
-    app.haMostradoMensajeDeBienvenidaPara(NOMBRE)
+    await app.haMostradoMensajeDeBienvenidaPara(NOMBRE)
   })
 })
 
 describe("cuando el usuario ingresa a la sala", () => {
   afterEach(cleanup)
-  it("debe ver la lista de jugadores ponerse online", () => {
+  it("debe ver la lista de jugadores ponerse online", async () => {
     const servicioDeIdentidad = {
       autorizar(presentador) {
         presentador.ingresarAUsuarioAutenticado("jorge")
@@ -36,24 +38,26 @@ describe("cuando el usuario ingresa a la sala", () => {
     }
     const servicioJugadoresConectados = {
       observadores: [],
-      agregarObservador: jest.fn(presentador => {
-        servicioJugadoresConectados.observadores.push(presentador)
+      jugadores: [],
+      observarAnunciados: jest.fn(presentador => {
+        servicioJugadoresConectados.observador = presentador
       }),
-      seHaConectado(jugador) {
+      anunciarJugador: jest.fn((nombre) => {
+        const jugador = {
+          nombre
+        }
+        servicioJugadoresConectados.jugadores.push(jugador)
         servicioJugadoresConectados
-          .observadores
-          .forEach(o => {
-            o.actualizarUsuariosConectados([jugador])
-          })
-      }
+          .observador
+          .actualizarUsuariosConectados(servicioJugadoresConectados.jugadores)
+      })
     }
     const app = new Aplicacion(servicioDeIdentidad, servicioJugadoresConectados)
-    app.haMostradoListaDeUsuariosConectadosCargando()
-    expect(servicioJugadoresConectados.agregarObservador).toBeCalled()
+    await app.haMostradoListaDeUsuariosConectadosCargando()
+    expect(servicioJugadoresConectados.anunciarJugador).toBeCalledWith("jorge")
+    expect(servicioJugadoresConectados.observarAnunciados).toBeCalled()
 
-    servicioJugadoresConectados.seHaConectado({
-      nombre: "pepe"
-    })
+    servicioJugadoresConectados.anunciarJugador("pepe")
     
     app.haMostradoJugadorConectado("pepe")
   })

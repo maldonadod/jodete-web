@@ -2,25 +2,28 @@ import ReactDOM from "react-dom";
 import ServicioDeIdentidad from "./Identidad/ServicioDeIdentidad";
 import "./index.css";
 import main from "./main";
+import * as Colyseus from "colyseus.js";
 
-class ServicioJugadoresConectados {
-  constructor() {
-    this.observadores = []
-    this.jugadores = []
-  }
-  agregarObservador(presenter) {
-    this.observadores.push(presenter)
-    setTimeout(() => {
-      presenter.actualizarUsuariosConectados(this.jugadores)
-      setTimeout(() => {
-        this.jugadores.push({
-          nombre: "pepito"
-        }, {
-          nombre: "menganito"
+let client = new Colyseus.Client("ws://localhost:2567");
+
+class ServicioJugadoresOnline {
+  observarAnunciados(presentador) {
+    this.observador = presentador
+    this.roomPromise = client.joinOrCreate("jugadores-online")
+      .then(room => {
+
+        room.onMessage(({ jugadoresConectados }) => {
+          this.observador.actualizarUsuariosConectados(jugadoresConectados)
         })
-        presenter.actualizarUsuariosConectados(this.jugadores)
-      }, 1000)
-    }, 1000)
+
+        this.room = room
+      })
+  }
+  async anunciarJugador(nombre) {
+    await this.roomPromise
+    this.room.send({
+      anunciarNombre: nombre
+    })
   }
 }
 
@@ -30,4 +33,4 @@ const driver = {
   }
 }
 
-main(driver, new ServicioDeIdentidad(), new ServicioJugadoresConectados())
+main(driver, new ServicioDeIdentidad(), new ServicioJugadoresOnline())

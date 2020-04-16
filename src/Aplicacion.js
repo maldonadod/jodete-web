@@ -14,10 +14,10 @@ class Aplication {
     this.driver.accionarBotonConLabel("Ingresar")
   }
   haMostradoMensajeDeBienvenidaPara(nombre) {
-    this.driver.getByText(`Bienvenido ${nombre}.`)
+    return this.driver.findByText(`Bienvenido ${nombre}.`)
   }
   haMostradoListaDeUsuariosConectadosCargando() {
-    this.driver.getByText("Cargando usuarios conectados...")
+    return this.driver.findByText("Cargando usuarios conectados...")
   }
   haMostradoListaDeUsuariosConectadosVacia() {
     this.driver.getByText("No hay usuarios conectados...")

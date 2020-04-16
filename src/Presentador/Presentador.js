@@ -12,23 +12,28 @@ class Presentador {
   actualizarUsuariosConectados(jugadores) {
     const tree = (
       <div>
-        <Bienvenida nombre={this.usuario} />
-        <UsuariosConectados jugadores={jugadores} />
+        <Bienvenida nombre={this.usuario.nombre} />
+        <UsuariosConectados jugadores={jugadores.filter(jugador => jugador.nombre !== this.usuario.nombre)} />
       </div>
     )
     this.driver.render(tree)
   }
-  ingresarAUsuarioAutenticado(nombre) {
-    this.usuario = nombre
+  async ingresarAUsuarioAutenticado(nombre) {
+
+    this.usuario = {
+      nombre
+    }
+
     const tree = (
       <div>
-        <Bienvenida nombre={this.usuario} />
+        <Bienvenida nombre={nombre} />
         <UsuariosConectadosCargando />
       </div>
     )
     this.driver.render(tree)
 
-    this.servicioJugadoresConectados.agregarObservador(this)
+    this.servicioJugadoresConectados.observarAnunciados(this)
+    this.servicioJugadoresConectados.anunciarJugador(nombre)
   }
   solicitarIdentidad(servicioDeIdentidad) {
     const cuandoIngresaNombre = nombre => {
