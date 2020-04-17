@@ -1,6 +1,6 @@
 import React from "react";
 
-function IdentidadDelUsuario({ cuandoIngresaNombre }) {
+function FormularioIdentidad({ cuandoIngresaNombre }) {
   const label = "Como es tu nombre ?";
   const [nombre, setNombre] = React.useState("");
   function onChange(e) {
@@ -16,4 +16,4 @@ function IdentidadDelUsuario({ cuandoIngresaNombre }) {
   );
 }
 
-export default IdentidadDelUsuario
+export default FormularioIdentidad

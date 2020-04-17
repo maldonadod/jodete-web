@@ -1,50 +1,38 @@
 import React from "react"
 import Bienvenida from "./ComponentesUI/Bienvenida"
-import IdentidadDelUsuario from "./ComponentesUI/IdentidadDelUsuario"
+import FormularioIdentidad from "./ComponentesUI/FormularioIdentidad"
 import UsuariosConectadosCargando from "./ComponentesUI/UsuariosConectadosCargando"
 import UsuariosConectados from "./ComponentesUI/UsuariosConectados"
 
 class Presentador {
-  constructor(driver, servicioJugadoresConectados) {
+  constructor(driver) {
     this.driver = driver
-    this.servicioJugadoresConectados = servicioJugadoresConectados
   }
-  actualizarUsuariosConectados(jugadores) {
-    const tree = (
+  actualizarUsuariosConectados(jugadores, usuario) {
+    this.driver.render(
       <div>
-        <Bienvenida nombre={this.usuario.nombre} />
-        <UsuariosConectados jugadores={jugadores.filter(jugador => jugador.nombre !== this.usuario.nombre)} />
+        <Bienvenida nombre={usuario.nombre} />
+        <UsuariosConectados jugadores={jugadores} />
       </div>
     )
-    this.driver.render(tree)
   }
-  async ingresarAUsuarioAutenticado(nombre) {
-
-    this.usuario = {
-      nombre
-    }
-
-    const tree = (
+  mostrarBienvenida(usuario) {
+    this.driver.render(
       <div>
-        <Bienvenida nombre={nombre} />
+        <Bienvenida nombre={usuario.nombre} />
         <UsuariosConectadosCargando />
       </div>
     )
-    this.driver.render(tree)
-
-    this.servicioJugadoresConectados.observarAnunciados(this)
-    this.servicioJugadoresConectados.anunciarJugador(nombre)
   }
-  solicitarIdentidad(servicioDeIdentidad) {
-    const cuandoIngresaNombre = nombre => {
-      servicioDeIdentidad.crearSesion(nombre, this)
+  mostrarFormularioIdentidad(ingresar) {
+    function tramitarIdentidad(nombre) {
+      ingresar.tramitarIdentidad(nombre)
     }
-    const tree = (
-      <IdentidadDelUsuario
-        cuandoIngresaNombre={cuandoIngresaNombre}
+    this.driver.render(
+      <FormularioIdentidad
+        cuandoIngresaNombre={tramitarIdentidad}
       />
     )
-    this.driver.render(tree)
   }
 }
 

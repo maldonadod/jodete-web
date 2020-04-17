@@ -1,9 +1,9 @@
 class ServicioDeIdentidad {
-  autorizar(presenter) {
-    presenter.solicitarIdentidad(this)
+  autorizarIngreso(ingresar) {
+    ingresar.solicitarIdentidad()
   }
-  crearSesion(nombre, presenter) {
-    presenter.ingresarAUsuarioAutenticado(nombre)
+  crearSesion(nombre, ingresar) {
+    ingresar.ingresoAutorizado(nombre)
   }
 }
 

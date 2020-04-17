@@ -32,8 +32,8 @@ describe("cuando el usuario ingresa a la sala", () => {
   afterEach(cleanup)
   it("debe ver la lista de jugadores ponerse online", async () => {
     const servicioDeIdentidad = {
-      autorizar(presentador) {
-        presentador.ingresarAUsuarioAutenticado("jorge")
+      autorizarIngreso(ingresar) {
+        ingresar.ingresoAutorizado("jorge")
       }
     }
     const servicioJugadoresConectados = {
