@@ -1,9 +1,7 @@
 import Aplicacion from "./Aplicacion"
 import ServicioDeIdentidad from "./Identidad/ServicioDeIdentidad"
-import { cleanup } from "@testing-library/react"
 
 describe("cuando el usuario llega a la pagina principal y no tiene autorizacion", () => {
-  afterEach(cleanup)
   it("se le debe preguntar su identidad (nombre)", () => {
     const servicioJugadoresConectados = {
       observarAnunciados: jest.fn(),
@@ -14,8 +12,22 @@ describe("cuando el usuario llega a la pagina principal y no tiene autorizacion"
   })
 })
 
+describe("cuando el usuario provee su nombre para identificarlo y este ya esta registrado", () => {
+  it("se le debe pedir elegir otro nombre", () => {
+    const servicioJugadoresConectados = {
+      observarAnunciados: jest.fn(),
+      anunciarJugador: jest.fn()
+    }
+    const servicioDeIdentidad = new ServicioDeIdentidad()
+    servicioDeIdentidad.registrarUsuario("juancito")
+
+    const app = new Aplicacion(servicioDeIdentidad, servicioJugadoresConectados)
+    app.ingresaNombreParaAutenticarse("juancito")
+    app.haPedidoQueElijaOtroNombre()
+  })
+})
+
 describe("cuando el usuario provee su nombre para identificarlo", () => {
-  afterEach(cleanup)
   it("se le permite ingresar a la sala y muestra mensaje de bienvenida", async () => {
     const servicioJugadoresConectados = {
       observarAnunciados: jest.fn(),
@@ -29,7 +41,6 @@ describe("cuando el usuario provee su nombre para identificarlo", () => {
 })
 
 describe("cuando el usuario ingresa a la sala", () => {
-  afterEach(cleanup)
   it("debe ver la lista de jugadores ponerse online", async () => {
     const servicioDeIdentidad = {
       autorizarIngreso(ingresar) {

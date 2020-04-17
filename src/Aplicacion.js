@@ -27,6 +27,9 @@ class Aplication {
     expect(noHayJugadoresConectados).toEqual(null)
     this.driver.getByText(nombreJugador)
   }
+  haPedidoQueElijaOtroNombre() {
+    this.driver.getByText("Elija otro nombre.")
+  }
 }
 
 export default Aplication;

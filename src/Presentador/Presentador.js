@@ -24,12 +24,13 @@ class Presentador {
       </div>
     )
   }
-  mostrarFormularioIdentidad(ingresar) {
+  mostrarFormularioIdentidad(ingresar, mensaje) {
     function tramitarIdentidad(nombre) {
       ingresar.tramitarIdentidad(nombre)
     }
     this.driver.render(
       <FormularioIdentidad
+        mensaje={mensaje}
         cuandoIngresaNombre={tramitarIdentidad}
       />
     )

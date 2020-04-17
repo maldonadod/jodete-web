@@ -10,6 +10,9 @@ class Ingresar {
   solicitarIdentidad() {
     this.presentador.mostrarFormularioIdentidad(this)
   }
+  solicitarOtroNombre() {
+    this.presentador.mostrarFormularioIdentidad(this, "Elija otro nombre.")
+  }
   tramitarIdentidad(nombre) {
     this.servicioDeIdentidad.crearSesion(nombre, this)
   }
