@@ -7,17 +7,14 @@ class Aplication {
     main(this.driver, servicioDeIdentidad, servicioJugadoresConectados)
   }
   haPreguntadoAlUsuarioPorSuIdentidad() {
-    this.driver.getByLabelText("Como es tu nombre ?")
+    return this.driver.findByText("Como es tu nombre ?")
   }
-  ingresaNombreParaAutenticarse(nombre) {
-    this.driver.ingresarTextoAlInputConLabel("Como es tu nombre ?", nombre)
-    this.driver.accionarBotonConLabel("Ingresar")
+  async ingresaNombreParaAutenticarse(nombre) {
+    await this.driver.ingresarTextoAlInputConLabel("Como es tu nombre ?", nombre)
+    return this.driver.accionarBotonConLabel("Ingresar")
   }
   haMostradoMensajeDeBienvenidaPara(nombre) {
     return this.driver.findByText(`Bienvenido ${nombre}.`)
-  }
-  haMostradoListaDeUsuariosConectadosCargando() {
-    return this.driver.findByText("Cargando usuarios conectados...")
   }
   haMostradoListaDeUsuariosConectadosVacia() {
     this.driver.getByText("No hay usuarios conectados...")
@@ -25,7 +22,7 @@ class Aplication {
   haMostradoJugadorConectado(nombreJugador) {
     const noHayJugadoresConectados = this.driver.queryByText("No hay usuarios conectados...")
     expect(noHayJugadoresConectados).toEqual(null)
-    this.driver.getByText(nombreJugador)
+    return this.driver.findByText(nombreJugador)
   }
   haPedidoQueElijaOtroNombre() {
     this.driver.getByText("Elija otro nombre.")

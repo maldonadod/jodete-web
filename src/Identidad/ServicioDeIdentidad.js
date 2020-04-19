@@ -1,21 +1,17 @@
 class ServicioDeIdentidad {
-  constructor() {
-    this.usuariosRegistrados = []
-  }
   autorizarIngreso(ingresar) {
     ingresar.solicitarIdentidad()
   }
-  crearSesion(nombre, ingresar) {
-    if (this.usuariosRegistrados.includes(nombre)) {
+  crearSesion(nombre, ingresar, usuariosRegistrados = []) {
+    if (usuariosRegistrados.includes(nombre)) {
 
       ingresar.solicitarOtroNombre(nombre)
     } else {
 
-      ingresar.ingresoAutorizado(nombre)
+      ingresar.ingresoAutorizado({
+        nombre
+      })
     }
-  }
-  registrarUsuario(nombre) {
-    this.usuariosRegistrados.push(nombre)
   }
 }
 

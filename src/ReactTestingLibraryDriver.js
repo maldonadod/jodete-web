@@ -9,11 +9,13 @@ class ReactTestingLibraryDriver {
       this.rerender = rerender
     }
   }
-  ingresarTextoAlInputConLabel(label, valor) {
-    fireEvent.change(screen.getByLabelText(label), createChangeEvent(valor))
+  async ingresarTextoAlInputConLabel(label, valor) {
+    const element = await screen.findByLabelText(label)
+    fireEvent.change(element, createChangeEvent(valor))
   }
-  accionarBotonConLabel(label) {
-    fireEvent.click(screen.getByText(label))
+  async accionarBotonConLabel(label) {
+    const boton = await screen.findByText(label)
+    fireEvent.click(boton)
   }
   findByText(text) {
     return screen.findByText(text)

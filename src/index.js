@@ -3,6 +3,7 @@ import ServicioDeIdentidad from "./Identidad/ServicioDeIdentidad";
 import "./index.css";
 import main from "./main";
 import ServicioJugadoresOnline from "./JugadoresOnline/ServicioJugadoresOnline";
+import RoomFactory from "./JugadoresOnline/RoomFactory";
 
 const driver = {
   render(tree) {
@@ -10,4 +11,6 @@ const driver = {
   }
 }
 
-main(driver, new ServicioDeIdentidad(), new ServicioJugadoresOnline())
+
+
+main(driver, new ServicioDeIdentidad(), new ServicioJugadoresOnline(new RoomFactory()))
