@@ -5,11 +5,14 @@ class ServicioJugadoresOnline {
   }
   async conectar() {
     this.room = await this.roomFactory.crearRoom()
-  }
-  observar(ovservador) {
     this.room.observar(jugadores => {
-      ovservador.actualizarJugadoresOnline(jugadores)
+      this.observadores.forEach(observador => {
+        observador.actualizarJugadoresOnline(jugadores)
+      })
     })
+  }
+  observar(observador) {
+    this.observadores.push(observador)
   }
   anunciarJugador(nombre) {
     this.room.enviar(nombre)

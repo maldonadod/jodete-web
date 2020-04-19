@@ -7,14 +7,16 @@ class ServicioDeIdentidad {
   }
   crearSesion(nombre, ingresar) {
     if (this.jugadoresOnline.includes(nombre)) {
-
       ingresar.solicitarOtroNombre(nombre)
     } else {
-
-      ingresar.ingresoAutorizado({
-        nombre
-      })
+      ingresar.ingresoAutorizado(new Jugador(nombre))
     }
+  }
+}
+
+class Jugador {
+  constructor(nombre) {
+    this.nombre = nombre
   }
 }
 
