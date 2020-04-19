@@ -9,24 +9,20 @@ class Ingresar {
   iniciar() {
     this.servicioDeIdentidad.autorizarIngreso(this)
   }
-  async solicitarIdentidad() {
-    const actualizarUsuariosConectados = jugadoresOnline => {
-      this.jugadoresOnline = jugadoresOnline
-      
-      if (this.usuario) {
-        const jugadores = this.jugadoresOnline.filter(jugador => jugador.nombre !== this.usuario.nombre)
-        this.presentador.actualizarUsuariosConectados(jugadores, this.usuario)
-      }
+  actualizarJugadoresOnline(jugadoresOnline) {
+    if (this.usuario) {
+      const jugadores = jugadoresOnline.filter(jugador => jugador.nombre !== this.usuario.nombre)
+      this.presentador.actualizarUsuariosConectados(jugadores, this.usuario)
     }
-    await this.servicioJugadoresOnline.observarAnunciados({ actualizarUsuariosConectados })
-    
+  }
+  async solicitarIdentidad() {
     this.presentador.mostrarFormularioIdentidad(this)
   }
   solicitarOtroNombre() {
     this.presentador.mostrarFormularioIdentidad(this, "Elija otro nombre.")
   }
   tramitarIdentidad(nombre) {
-    this.servicioDeIdentidad.crearSesion(nombre, this, this.jugadoresOnline.map(j => j.nombre))
+    this.servicioDeIdentidad.crearSesion(nombre, this)
   }
   async ingresoAutorizado(usuario) {
     this.usuario = usuario

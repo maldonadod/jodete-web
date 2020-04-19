@@ -2,8 +2,11 @@ class ServicioDeIdentidad {
   autorizarIngreso(ingresar) {
     ingresar.solicitarIdentidad()
   }
-  crearSesion(nombre, ingresar, usuariosRegistrados = []) {
-    if (usuariosRegistrados.includes(nombre)) {
+  actualizarJugadoresOnline(jugadoresOnline) {
+    this.jugadoresOnline = jugadoresOnline.map(jugador => jugador.nombre)
+  }
+  crearSesion(nombre, ingresar) {
+    if (this.jugadoresOnline.includes(nombre)) {
 
       ingresar.solicitarOtroNombre(nombre)
     } else {
