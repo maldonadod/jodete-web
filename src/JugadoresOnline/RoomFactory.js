@@ -1,5 +1,5 @@
 import * as Colyseus from "colyseus.js";
-let client = new Colyseus.Client("ws://jodete-server.herokuapp.com");
+let client = new Colyseus.Client("wss://jodete-server.herokuapp.com");
 
 class RoomFactory {
   async crearRoom() {
