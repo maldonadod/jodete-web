@@ -6,7 +6,14 @@ class IdentificarJugadorPresentacion {
     this.ui = ui
   }
   mostrarFormularioIdentidad(callback) {
-    this.ui.render(<FormularioIdentidad ingresarFormulario={callback} />)
+    if (this.mensajeNombreInvalido) {
+      this.ui.render(<FormularioIdentidad ingresarFormulario={callback} mensajeNombreInvalido={this.mensajeNombreInvalido} />)
+    } else {
+      this.ui.render(<FormularioIdentidad ingresarFormulario={callback} />)
+    }
+  }
+  informarNombreEnUso(nombre) {
+    this.mensajeNombreInvalido = "El nombre esta en uso!"
   }
 }
 

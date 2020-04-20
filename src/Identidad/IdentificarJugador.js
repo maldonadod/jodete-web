@@ -3,12 +3,17 @@ class IdentificarJugador {
     this.presenter = presenter
     this.room = room
     this.callback = callback
-    this.room.observarJugadoresOnline(this)
     this.presenter.mostrarFormularioIdentidad(nombre => this.crearIdentidad(nombre))
   }
-  crearIdentidad(nombre) {
-    this.room.anunciarNuevoJugadorOnline(nombre)
-    this.callback(this.room, nombre)
+  async crearIdentidad(nombre) {
+    const jugadoresOnline = await this.room.getJugadoresOnline()
+    if (jugadoresOnline && jugadoresOnline.includes(nombre)) {
+      this.presenter.informarNombreEnUso(nombre)
+      this.presenter.mostrarFormularioIdentidad(nombre => this.crearIdentidad(nombre))
+    } else {
+      this.room.anunciarNuevoJugadorOnline(nombre)
+      this.callback(this.room, nombre)
+    }
   }
 }
 

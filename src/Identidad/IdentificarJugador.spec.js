@@ -6,15 +6,13 @@ describe("IdentificarJugador", () => {
     const presenter = {
       mostrarFormularioIdentidad: jest.fn()
     }
-    const room = {
-      observarJugadoresOnline: jest.fn()
-    }
-    const identidad = new IdentificarJugador(presenter, room)
+    const room = {}
 
-    expect(room.observarJugadoresOnline).toHaveBeenCalledWith(identidad)
+    new IdentificarJugador(presenter, room)
+
     expect(presenter.mostrarFormularioIdentidad).toHaveBeenCalledWith(expect.any(Function))
   })
-  it("debe identificar al jugador y dejarlo ingresar", () => {
+  it("debe identificar al jugador y dejarlo ingresar", async () => {
   
     const callback = jest.fn()
 
@@ -22,19 +20,41 @@ describe("IdentificarJugador", () => {
       mostrarFormularioIdentidad: jest.fn(crearIdentidadCallback => {
         presenter.crearIdentidadCallback = crearIdentidadCallback
       }),
+      async ingresarNombre(nombre) {
+        await presenter.crearIdentidadCallback(nombre)
+      }
+    }
+    const room = {
+      getJugadoresOnline: jest.fn(async () => []),
+      anunciarNuevoJugadorOnline: jest.fn()
+    }
+    new IdentificarJugador(presenter, room, callback)
+
+    await presenter.ingresarNombre("jorge")
+
+    expect(room.anunciarNuevoJugadorOnline).toHaveBeenCalledWith("jorge")
+    expect(callback).toHaveBeenCalledWith(room, "jorge")
+  })
+  it("debe informar que su nombre ya ha sido tomado", async () => {
+    const jugadoresOnline = ["jorge"]
+    const presenter = {
+      mostrarFormularioIdentidad: jest.fn(crearIdentidadCallback => {
+        presenter.crearIdentidadCallback = crearIdentidadCallback
+      }),
+      informarNombreEnUso: jest.fn(),
       ingresarNombre(nombre) {
         presenter.crearIdentidadCallback(nombre)
       }
     }
     const room = {
-      observarJugadoresOnline: jest.fn(),
-      anunciarNuevoJugadorOnline: jest.fn()
+      anunciarNuevoJugadorOnline: jest.fn(),
+      getJugadoresOnline: jest.fn(async () => jugadoresOnline)
     }
-    new IdentificarJugador(presenter, room, callback)
+    new IdentificarJugador(presenter, room, () => {})
 
-    presenter.ingresarNombre("jorge")
+    await presenter.ingresarNombre("jorge")
 
-    expect(room.anunciarNuevoJugadorOnline).toHaveBeenCalledWith("jorge")
-    expect(callback).toHaveBeenCalledWith(room, "jorge")
+    expect(room.getJugadoresOnline).toHaveBeenCalled()
+    expect(presenter.informarNombreEnUso).toHaveBeenCalledWith("jorge")
   })
 })

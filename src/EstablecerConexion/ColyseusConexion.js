@@ -5,16 +5,17 @@ let client = new Colyseus.Client("wss://jodete-server.herokuapp.com");
 class ColyseusConexion {
   async conectar() {
     const room = await client.joinOrCreate("jugadores-online")
-
-    room.onMessage(({ jugadoresConectados }) => {
-      console.log(jugadoresConectados)
+    let jugadoresConectados = [];
+    
+    room.onMessage(message => {
+      jugadoresConectados = message.jugadoresConectados
     })
+    
     return {
-      observarJugadoresOnline(observador) {
-        console.log("observarJugadoresOnline: ", observador)
+      getJugadoresOnline() {
+        return jugadoresConectados.map(j => j.nombre)
       },
       anunciarNuevoJugadorOnline(nombre) {
-        console.log("anunciarNuevoJugadorOnline: ", nombre)
         room.send({
           anunciarNombre: nombre
         })

@@ -24,6 +24,9 @@ class Aplicacion {
   async haInformadoUnaFallaEnSistema() {
     await this.renderer.esperarPorTexto("Oops... intentar luego, fuera de servicio.")
   }
+  async haInformadoNombreEnUso() {
+    await this.renderer.esperarPorTexto("El nombre esta en uso!")
+  }
 }
 
 class Renderer {

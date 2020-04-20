@@ -7,6 +7,11 @@ describe("FormularioIdentidad", () => {
     const utils = render(<FormularioIdentidad />)
     utils.getByText("Cual es tu nombre ?")
   })
+  it("debe informar el mensaje proporcionado", () => {
+    const mensaje = "Este es el mensaje por nombre invalido."
+    const utils = render(<FormularioIdentidad mensajeNombreInvalido={mensaje} />)
+    utils.getByText(mensaje)
+  })
   it("debe volver a llamar cuando el usuario ingresa su nombre", () => {
     const nombre = "jorge"
     const callback = jest.fn()
