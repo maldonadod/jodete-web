@@ -2,9 +2,10 @@ import { render, fireEvent } from "@testing-library/react"
 import main from "./main"
 
 class Aplicacion {
-  constructor() {
+  constructor(conexion) {
     this.renderer = new Renderer()
-    main(this.renderer)
+    this.conexion = conexion
+    main(this.renderer, conexion)
   }
   haMostradoFormularioDeIdentidad() {
     return this.renderer.esperarPorTexto("Cual es tu nombre ?")
@@ -17,8 +18,8 @@ class Aplicacion {
     })
     fireEvent.click(this.renderer.encuentraElTexto("Ingresar"))
   }
-  haMostradoBienvenidaPara(nombre) {
-    return this.renderer.esperarPorTexto(`Bienvenido ${nombre} ya sos nuestro perruki!`)
+  async haMostradoBienvenidaPara(nombre) {
+    await this.renderer.esperarPorTexto(`Bienvenido ${nombre} ya sos nuestro perruki!`)
   }
 }
 

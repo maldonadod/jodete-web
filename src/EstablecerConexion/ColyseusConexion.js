@@ -11,9 +11,10 @@ class ColyseusConexion {
     })
     return {
       observarJugadoresOnline(observador) {
-        console.log(observador)
+        console.log("observarJugadoresOnline: ", observador)
       },
       anunciarNuevoJugadorOnline(nombre) {
+        console.log("anunciarNuevoJugadorOnline: ", nombre)
         room.send({
           anunciarNombre: nombre
         })

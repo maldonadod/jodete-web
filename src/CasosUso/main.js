@@ -2,27 +2,28 @@ import IdentificarJugador from "../Identidad/IdentificarJugador"
 import IdentificarJugadorPresentacion from "../Identidad/IdentificarJugadorPresentacion"
 import EstablecerConexion from "../EstablecerConexion/EstablecerConexion"
 import EstablecerConexionPresentacion from "../EstablecerConexion/ReactConexionPresentacion"
-import ColyseusConexion from "../EstablecerConexion/ColyseusConexion"
 
-const conexion = new ColyseusConexion()
+function conectar(renderer, conexion) {
+  const presentacion = new EstablecerConexionPresentacion(renderer)
+  const establecer = new EstablecerConexion(conexion, presentacion)
+  return callback => establecer.iniciar(callback)
+}
 
-function main(renderer) {
-  const establecer = new EstablecerConexion(
-    conexion,
-    new EstablecerConexionPresentacion(renderer)
-  )
-  
-  establecer.iniciar(room => {
+function identificar(renderer, room) {
+  const presentacion = new IdentificarJugadorPresentacion(renderer)
+  return callback => {
+    new IdentificarJugador(presentacion, room, (room, nombre) => callback(nombre))
+  }
+}
 
-    function ingresar(room, nombre) {
-      renderer.render(`Bienvenido ${nombre} ya sos nuestro perruki!`)
-    }
-    new IdentificarJugador(
-      new IdentificarJugadorPresentacion(renderer),
-      room,
-      ingresar
-    )
-  })
+async function main(renderer, conexion) {
+  const room = await esperar(conectar(renderer, conexion))
+  const nombre = await esperar(identificar(renderer, room))
+  renderer.render(`Bienvenido ${nombre} ya sos nuestro perruki!`)
+}
+
+function esperar(callback) {
+  return new Promise(callback)
 }
 
 export default main;
