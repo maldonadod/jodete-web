@@ -1,9 +1,6 @@
 import ReactDOM from "react-dom";
-import ServicioDeIdentidad from "./Identidad/ServicioDeIdentidad";
 import "./index.css";
-import main from "./main";
-import ServicioJugadoresOnline from "./JugadoresOnline/ServicioJugadoresOnline";
-import RoomFactory from "./JugadoresOnline/RoomFactory";
+import main from "./CasosUso/main";
 
 const driver = {
   render(tree) {
@@ -11,6 +8,4 @@ const driver = {
   }
 }
 
-
-
-main(driver, new ServicioDeIdentidad(), new ServicioJugadoresOnline(new RoomFactory()))
+main(driver)
