@@ -11,7 +11,7 @@ class ReactConexionPresentacion {
     this.ui.render(<ConexionEnProgreso />)
   }
   mostrarConexionFallida(error) {
-    this.ui.render(<ConexionFallida mensajeError={error.message} />)
+    this.ui.render(<ConexionFallida />)
   }
 }
 

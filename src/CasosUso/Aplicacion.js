@@ -21,11 +21,18 @@ class Aplicacion {
   async haMostradoBienvenidaPara(nombre) {
     await this.renderer.esperarPorTexto(`Bienvenido ${nombre} ya sos nuestro perruki!`)
   }
+  async haInformadoUnaFallaEnSistema() {
+    await this.renderer.esperarPorTexto("Oops... intentar luego, fuera de servicio.")
+  }
 }
 
 class Renderer {
   render(tree) {
-    this.utils = render(tree)
+    if (this.utils) {
+      this.utils.rerender(tree)
+    } else {
+      this.utils = render(tree)
+    }
   }
   encuentraElTexto(texto) {
     return this.utils.getByText(texto)

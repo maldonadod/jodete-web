@@ -1,10 +1,8 @@
 import React from "react"
 
-function ConexionFallida({ mensajeError }) {
+function ConexionFallida() {
   return (
-    <div>
-      {mensajeError}
-    </div>
+    <div>Oops... intentar luego, fuera de servicio.</div>
   )
 }
 

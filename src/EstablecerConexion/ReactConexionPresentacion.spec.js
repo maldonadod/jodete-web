@@ -23,14 +23,12 @@ describe("ReactConexionPresentacion", () => {
   })
   it("debe tomar el mensaje del error y montar ConexionFallida", () => {
 
-    const mensajeError = "Algo se rompio."
-
     const presentacion = new ReactConexionPresentacion(ui)
 
-    presentacion.mostrarConexionFallida(new Error(mensajeError))
+    presentacion.mostrarConexionFallida(new Error("sin importancia"))
 
     expect(ui.render).toHaveBeenCalledWith(
-      <ConexionFallida mensajeError={mensajeError} />
+      <ConexionFallida />
     )
   })
 })
