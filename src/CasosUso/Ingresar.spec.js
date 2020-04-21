@@ -8,6 +8,7 @@ describe("Ingresa al sistema proveyendo su nombre", () => {
         async getJugadoresOnline() {
           return []
         },
+        observarJugadoresOnline() {},
         anunciarNuevoJugadorOnline(nombre) {}
       }
     }
@@ -23,6 +24,43 @@ describe("Ingresa al sistema proveyendo su nombre", () => {
     app.ingresarIdentidad(nombre)
 
     await app.haMostradoBienvenidaPara(nombre)
+  })
+})
+
+describe("Ingresa al sistema proveyendo su nombre, el usuario es hospedado", () => {
+  const room = {
+    jugadores: [],
+    async getJugadoresOnline() {
+      return []
+    },
+    observarJugadoresOnline(callback) {
+      room.callback = callback
+    },
+    anunciarNuevoJugadorOnline(nombre) {
+      room.jugadores.push({ nombre })
+      room.callback && room.callback(room.jugadores)
+    }
+  }
+  class ColyseusConexionFake {
+    async conectar() {
+      return room
+    }
+  }
+  it("debe mostrar oponentes", async () => {
+
+    const nombre = "jorge"
+
+    const app = new Aplicacion(new ColyseusConexionFake())
+
+    await app.haMostradoFormularioDeIdentidad()
+    
+    app.ingresarIdentidad(nombre)
+
+    await app.haMostradoBienvenidaPara(nombre)
+
+    room.anunciarNuevoJugadorOnline("jose")
+
+    await app.haMostradoOponentes(["jose"], "jorge")
   })
 })
 

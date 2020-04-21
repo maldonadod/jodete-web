@@ -4,11 +4,13 @@ let client = new Colyseus.Client("wss://jodete-server.herokuapp.com");
 
 class ColyseusConexion {
   async conectar() {
+    const callbacks = []
     const room = await client.joinOrCreate("jugadores-online")
     let jugadoresConectados = [];
     
     room.onMessage(message => {
       jugadoresConectados = message.jugadoresConectados
+      callbacks.forEach(callback => callback(jugadoresConectados))
     })
     
     return {
@@ -19,6 +21,9 @@ class ColyseusConexion {
         room.send({
           anunciarNombre: nombre
         })
+      },
+      observarJugadoresOnline(c) {
+        callbacks.push(c)
       }
     }
   }

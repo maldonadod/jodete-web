@@ -2,6 +2,8 @@ import IdentificarJugador from "../Identidad/IdentificarJugador"
 import IdentificarJugadorPresentacion from "../Identidad/IdentificarJugadorPresentacion"
 import EstablecerConexion from "../EstablecerConexion/EstablecerConexion"
 import EstablecerConexionPresentacion from "../EstablecerConexion/ReactConexionPresentacion"
+import Anfitrion from "../Anfitrion/Anfitrion"
+import HospedajePresentacion from "../Anfitrion/HospedajePresentacion"
 
 function conectar(renderer, conexion) {
   const presentacion = new EstablecerConexionPresentacion(renderer)
@@ -16,10 +18,15 @@ function identificar(renderer, room) {
   })
 }
 
+function hospedar(renderer, room, nombre) {
+  const presentacion = new HospedajePresentacion(renderer)
+  new Anfitrion(presentacion, room).hospedar(nombre)
+}
+
 async function main(renderer, conexion) {
   const room = await conectar(renderer, conexion)
   const nombre = await identificar(renderer, room)
-  renderer.render(`Bienvenido ${nombre} ya sos nuestro perruki!`)
+  hospedar(renderer, room, nombre)
 }
 
 function esperar(callback) {
