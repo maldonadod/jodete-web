@@ -1,0 +1,19 @@
+.conexion-en-progreso {
+  transform: translateY(-100px);
+  animation-name: example;
+  animation-duration: 10s;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+}
+
+@keyframes example {
+  0% {
+    transform: translateY(50px);
+  }
+  100% {
+    transform: translateY(500px);
+    opacity: 0;
+  }
+}

@@ -1,8 +1,9 @@
 import React from "react"
+import "./ConexionEnProgreso.css"
 
 function ConexionEnProgreso() {
   return (
-    <div>La conexion esta en progreso...</div>
+    <div className="conexion-en-progreso">La conexion esta en progreso...</div>
   )
 }
 
