@@ -1,7 +1,7 @@
 .conexion-en-progreso {
   transform: translateY(-100px);
   animation-name: example;
-  animation-duration: 10s;
+  animation-duration: 5s;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -13,7 +13,7 @@
     transform: translateY(50px);
   }
   100% {
-    transform: translateY(500px);
-    opacity: 0;
+    transform: translateY(50%);
+    opacity: .1;
   }
 }
