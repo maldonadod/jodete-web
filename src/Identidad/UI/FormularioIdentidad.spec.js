@@ -5,7 +5,7 @@ import FormularioIdentidad from "./FormularioIdentidad"
 describe("FormularioIdentidad", () => {
   it("debe preguntar nombre del usuario", () => {
     const utils = render(<FormularioIdentidad />)
-    utils.getByText("Cual es tu nombre ?")
+    utils.getByText("Cuál es tu nombre ?")
   })
   it("debe informar el mensaje proporcionado", () => {
     const mensaje = "Este es el mensaje por nombre invalido."
@@ -17,7 +17,7 @@ describe("FormularioIdentidad", () => {
     const callback = jest.fn()
     const utils = render(<FormularioIdentidad ingresarFormulario={callback} />)
     
-    fireEvent.change(utils.getByLabelText("Cual es tu nombre ?"), {
+    fireEvent.change(utils.getByLabelText("Cuál es tu nombre ?"), {
       target: {
         value: nombre
       }

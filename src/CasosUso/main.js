@@ -6,19 +6,19 @@ import EstablecerConexionPresentacion from "../EstablecerConexion/ReactConexionP
 function conectar(renderer, conexion) {
   const presentacion = new EstablecerConexionPresentacion(renderer)
   const establecer = new EstablecerConexion(conexion, presentacion)
-  return callback => establecer.iniciar(callback)
+  return esperar(callback => establecer.iniciar(callback))
 }
 
 function identificar(renderer, room) {
   const presentacion = new IdentificarJugadorPresentacion(renderer)
-  return callback => {
+  return esperar(callback => {
     new IdentificarJugador(presentacion, room, (room, nombre) => callback(nombre))
-  }
+  })
 }
 
 async function main(renderer, conexion) {
-  const room = await esperar(conectar(renderer, conexion))
-  const nombre = await esperar(identificar(renderer, room))
+  const room = await conectar(renderer, conexion)
+  const nombre = await identificar(renderer, room)
   renderer.render(`Bienvenido ${nombre} ya sos nuestro perruki!`)
 }
 

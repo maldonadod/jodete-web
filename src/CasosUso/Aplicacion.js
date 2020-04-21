@@ -8,10 +8,10 @@ class Aplicacion {
     main(this.renderer, conexion)
   }
   haMostradoFormularioDeIdentidad() {
-    return this.renderer.esperarPorTexto("Cual es tu nombre ?")
+    return this.renderer.esperarPorTexto("Cuál es tu nombre ?")
   }
   ingresarIdentidad(nombre) {
-    fireEvent.change(this.renderer.encuentraElInputConLabel("Cual es tu nombre ?"), {
+    fireEvent.change(this.renderer.encuentraElInputConLabel("Cuál es tu nombre ?"), {
       target: {
         value: nombre
       }
