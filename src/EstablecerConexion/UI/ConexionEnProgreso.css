@@ -6,14 +6,20 @@
   display: flex;
   justify-content: center;
   font-size: 25px;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  opacity: 0;
 }
 
 @keyframes example {
   0% {
     transform: translateY(50px);
   }
+  50% {
+    opacity: .5;
+  }
   100% {
     transform: translateY(50%);
-    opacity: .1;
+    opacity: .0;
   }
 }

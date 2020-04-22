@@ -27,6 +27,13 @@ class Aplicacion {
   async haInformadoNombreEnUso() {
     await this.renderer.esperarPorTexto("El nombre esta en uso!")
   }
+  async haMostradoOponentes(jugadoresOnline, nombreJugadorActual) {
+    const container = this.renderer.obtenerPorTestId("oponentes")
+    await jugadoresOnline.reduce((p1, nombre) => {
+      return p1.then(() => this.renderer.esperarPorTexto(nombre), container)
+    }, Promise.resolve())
+    this.renderer.noEncuentraElTexto(nombreJugadorActual)
+  }
 }
 
 class Renderer {
@@ -40,11 +47,18 @@ class Renderer {
   encuentraElTexto(texto) {
     return this.utils.getByText(texto)
   }
+  noEncuentraElTexto(texto) {
+    const elemento = this.utils.queryByText(texto)
+    expect(elemento).toEqual(null)
+  }
   encuentraElInputConLabel(label) {
     return this.utils.getByLabelText(label)
   }
   esperarPorTexto(texto) {
     return this.utils.findByText(texto)
+  }
+  obtenerPorTestId(testId) {
+    return this.utils.getByTestId(testId)
   }
 }
 
