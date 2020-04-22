@@ -8,6 +8,6 @@ describe("Bienvenida", () => {
     
     const utils = render(<Bienvenida nombre={nombre} />)
 
-    utils.getByText(`Bienvenido ${nombre} ya sos nuestro perruki!`)
+    utils.getByText("Bienvenido Adrián Dárgelos ya sos nuestro perruki!")
   })  
 })
